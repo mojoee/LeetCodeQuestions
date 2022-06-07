@@ -3,24 +3,18 @@ from numpy import equal
 
 class Solution:
     def maxSubArray(self, nums: list[int]) -> int:
-        max_sum_list=[]
+        local_max=0
+        global_max=float('-inf')
         for i in range(len(nums)):
-            subsum=[]
-            notattached=[]
-            for num in nums[i:]:
-                notattached.append(num)
-                if sum(notattached)>0:
-                    subsum.extend(notattached)
-                    notattached=[]
-            if sum(subsum)>sum(max_sum_list):
-                max_sum_list=subsum
-        return max_sum_list
+            local_max=max(nums[i], nums[i]+local_max)
+            if local_max>global_max:
+                global_max=local_max
+        return global_max
 
 if __name__=="__main__":
     solution=Solution()
-    a=solution.maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
+    a=solution.maxSubArray([-1])
     print(a)
-    assert a==[4,-1,2,1]
     b=solution.maxSubArray([5,4,-1,7,8])
     print(b)
-    assert sum(b)==23
+    assert b==23
